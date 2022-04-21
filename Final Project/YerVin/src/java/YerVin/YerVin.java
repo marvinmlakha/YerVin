@@ -20,7 +20,7 @@ public class YerVin extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        if ( !Login.ensureUserIsLoggedIn(request) ){
+        if (!Login.ensureUserIsLoggedIn(request)){
             // would be nice to have a message
             request.setAttribute("message", "you must login");
             response.sendRedirect("Login");

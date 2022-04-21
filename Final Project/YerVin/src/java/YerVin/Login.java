@@ -37,7 +37,19 @@ public class Login extends HttpServlet {
         if (action == null) {
             String url = "/login.jsp";
             getServletContext().getRequestDispatcher(url).forward(request, response);
-        } else if (action.equalsIgnoreCase("login")) {
+        }else if (action.equalsIgnoreCase("loginPage")){
+            HttpSession session = request.getSession();
+            String text = "";
+            session.setAttribute("relay", text);
+            String url = "/login.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+        }else if (action.equalsIgnoreCase("RegisterPage")){
+            HttpSession session = request.getSession();
+            String text = "";
+            session.setAttribute("relay", text);
+            String url = "/register.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+        }else if (action.equalsIgnoreCase("login")) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             if (username == null || password == null) {
@@ -59,6 +71,7 @@ public class Login extends HttpServlet {
                     String error = "invalid username or password";
                     request.setAttribute("error", error);
                     String url = "/error.jsp";
+                    
                     getServletContext().getRequestDispatcher(url).forward(request, response);
                 }
 
@@ -87,7 +100,12 @@ public class Login extends HttpServlet {
                 UserModel.addUser(user);
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);
-                response.sendRedirect("YerVin");
+                
+                String text = "Account sucessfully created!";
+                session.setAttribute("relay", text);
+            
+                String url = "/register.jsp";
+                getServletContext().getRequestDispatcher(url).forward(request, response);
 
             } catch (Exception ex) {
                 exceptionPage(ex, request, response);

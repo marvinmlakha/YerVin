@@ -1,0 +1,31 @@
+nav{
+	height: 75px;
+	background-color:burlywood;
+}
+
+h1{
+	text-align: center;
+}
+
+#Ye{
+	font-size: 75px;
+	color: blue;
+}
+
+#rVin{
+	font-size: 75px;
+	color: red;
+}
+
+#Login{
+	text-align: center;
+	
+}
+
+#links{
+	text-align: center;
+}
+
+#links a{
+	text-decoration: none;
+}

@@ -24,16 +24,8 @@
 
             <input type="submit" value="Login"/>
         </form>
-        <h2>Register New Account</h2>
-        <form action="Login" method="post">
-            <label>User Name</label>
-            <input type="text" name="username"/><br>
-            <label>Password</label>
-            <input type="password" name="password"/><br>
-            
-            <input type="hidden" name="action" value="register"/>
-
-            <input type="submit" value="Register"/>
-        </form>
+        
+        <br>
+        <p>Create account if you don't have one: <a href="register.jsp" name="action" value="registerPage">Create account</a></p>
     </body>
 </html>
