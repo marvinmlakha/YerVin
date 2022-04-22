@@ -5,16 +5,18 @@
         <title>YerVin</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="assets/css/Main.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/Main.css" rel="stylesheet" type="text/css">
+	<link href="assets/css//accountMain.css" rel="stylesheet" type="text/css">	
     </head>
     <body>
 	<header>
 		<nav><h1><b id="Ye">Yer</b><b id="rVin">Vin</b></h1></nav>
 		<nav class="menu">
-            <a href="Home">Home</a>
-        <a href="Friends">users list</a>
-        <a href="CreatePost">Post</a>
-        <a href="Profile">Profile</a>
+            <a href="Home.html">Home</a>
+            <a href="Articles.html">Article</a>
+            <a href="Adopt.html">Adopting</a>
+            <a href="HamsterNeed.html">Hamster Needs</a>
+            <a href="About Us.html">About Us</a>
         </nav>
 		</header>
         <br>
@@ -22,19 +24,18 @@
 	<div id="links">
             <form action="Login" method="post">       
                 <label>Have an existing account?</label>
+				<br>
                 <input type="hidden" name="action" value="loginPage"/>
                 <input type="submit" value="Login Account"/>
             </form>
             <br>
             <form action="Login" method="post">   
                 <label>Create a new account:</label>
+				<br>
                 <input type="hidden" name="action" value="registerPage"/>
                 <input type="submit" value="Register Account"/>
             </form>
-            
-            <a href="login.jsp">Login</a>
-            <br>
-            <a href="register.jsp">Create account</a>
+                  
 	</div>
     </body>
 </html>
