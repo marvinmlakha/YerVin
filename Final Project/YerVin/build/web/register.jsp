@@ -4,14 +4,9 @@
     Author     : mlakh
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Register</title>
-    </head>
-    <body>
+<c:import url="/assets/headerFooter/headerPlain.jsp" />
         <h2>Register New Account</h2>
         <form action="Login" method="post">
             
@@ -29,5 +24,5 @@
         
         <br>
         <p>Log in if you already have an account: <a href="login.jsp"name="action" value="loginPage">Login</a></p>
-    </body>
-</html>
+<c:import url="/assets/headerFooter/footer.jsp" />
+

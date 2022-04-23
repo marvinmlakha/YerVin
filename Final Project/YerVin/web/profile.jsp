@@ -3,15 +3,9 @@
     Created on : Apr 14, 2022, 6:43:11 PM
     Author     : EricC
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Profile</title>
-    </head>
-    <body>
+<c:import url="/assets/headerFooter/headerNav.jsp" />
         <h2>Welcome ${username}!</h2>
         <c:if test="${(filename != null)}">
             <img src="GetImage?username=${username}" width="240" height="300"/>
@@ -26,5 +20,4 @@
                 <input type="submit" value="Upload"><br>
             </div>
         </form>
-    </body>
-</html>
+<c:import url="/assets/headerFooter/footer.jsp" />
