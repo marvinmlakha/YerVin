@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
                 if (UserModel.login(user)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("username", username);
-                    String url = "/home.jsp";
+                    String url = "/Home";
                     getServletContext().getRequestDispatcher(url).forward(request, response);
                 } else {
                     String error = "invalid username or password";

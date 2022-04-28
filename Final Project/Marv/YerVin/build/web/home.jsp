@@ -1,20 +1,26 @@
-<%-- 
-    Document   : home
-    Created on : Apr 21, 2022, 7:53:22 PM
-    Author     : mlakh
---%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
-    </head>
-    <body>
-        <a href="Home">Home</a>
-        <a href="Friends">users list</a>
-        <a href="CreatePost">Post</a>
-        <a href="Profile">Profile</a>
-    </body>
-</html>
+<c:import url="/views/headerNav.jsp" />
+
+        <c:forEach var="post" items="${friendPosts}">
+            <c:if test="${(filename != null)}">
+                <img src="GetImage?username=${post.username}" width="50" height="75"/>
+                <p>${post.username}</p>
+            </c:if>
+            <c:if test="${(post.filename != null)}">
+                <img src="GetPostImage?id=${post.id}" width="240" height="300"/>
+            </c:if>
+                <li><c:out value="${post.text}" />
+                <br>
+                <c:out value="${post.timestamp}" />
+                <br>
+                <c:out value="${post.likes}" /></li>
+                <form action="LikeHome" method="post">
+                    <br>
+                    <input type="hidden" name="action" value="${post.id}">
+                    <input type="submit" value="Like"/>
+                </form>
+        </c:forEach>
+
+<c:import url="/views/footer.jsp" /> 

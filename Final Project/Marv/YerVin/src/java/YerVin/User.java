@@ -13,6 +13,11 @@ public class User implements Serializable {
     private String password;
     private String filename;
 
+    public User(int id) {
+        this.id = id;
+        this.username = username;
+    }
+    
     public User(int id, String username, String password) {
         this(id, username, password, null);
     }
@@ -30,6 +35,10 @@ public class User implements Serializable {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
     }
     
     public int getId() {

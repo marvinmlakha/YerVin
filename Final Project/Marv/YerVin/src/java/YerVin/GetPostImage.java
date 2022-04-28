@@ -5,19 +5,23 @@
 package YerVin;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author EricC
+ * @author mlakh
  */
-public class Profile extends HttpServlet {
+public class GetPostImage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,25 +34,43 @@ public class Profile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String userName = request.getParameter("id");
 
-        if (!Login.ensureUserIsLoggedIn(request)) {
-            // would be nice to have a message
-            request.setAttribute("message", "you must login");
-            response.sendRedirect("Login");
-            return;
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String preparedSQL = "select image, filename from post where id = ? ";
+            PreparedStatement preparedStatement = connection.prepareStatement(preparedSQL);
+
+            // index starts at 1?
+            preparedStatement.setString(1, userName);
+
+            ResultSet result = preparedStatement.executeQuery();
+            Blob blob = null;
+            String filename = "";
+            while ( result.next() ){
+                blob = result.getBlob("image");
+                filename = result.getString("filename");
+            }
+
+            byte[] imageBytes = blob.getBytes(1, (int)blob.length());
+
+            preparedStatement.close();
+            connection.close();
+
+            String contentType = this.getServletContext().getMimeType(filename);
+
+            response.setHeader("Content-Type", contentType);
+
+            OutputStream os = response.getOutputStream();
+            os.write(imageBytes);
+            os.flush();
+            os.close();
+
+        } catch (SQLException exception) {
+            System.out.println(exception);
+        } catch (ClassNotFoundException exception) {
+            System.out.println(exception);
         }
-        
-        HttpSession session = request.getSession();
-        String username = (String)session.getAttribute("username");
-        User user = UserModel.getUser(username);
-        
-        ArrayList<Post> posts = PostModel.getPostsOfThisUser(user);
-        request.setAttribute("posts", posts);
-        
-        request.setAttribute("filename", user.getFilename());
-        String url = "/profile.jsp";
-        getServletContext().getRequestDispatcher(url).forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,4 +113,3 @@ public class Profile extends HttpServlet {
     }// </editor-fold>
 
 }
-

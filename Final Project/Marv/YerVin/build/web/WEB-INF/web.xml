@@ -37,8 +37,28 @@
         <servlet-class>YerVin.Friends</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>PostModel</servlet-name>
+        <servlet-class>YerVin.PostModel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadPost</servlet-name>
+        <servlet-class>YerVin.UploadPost</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FriendPage</servlet-name>
+        <servlet-class>YerVin.FriendPage</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>CreatePost</servlet-name>
         <servlet-class>YerVin.CreatePost</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetPostImage</servlet-name>
+        <servlet-class>YerVin.GetPostImage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LikeHome</servlet-name>
+        <servlet-class>YerVin.LikeHome</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>YerVin</servlet-name>
@@ -77,8 +97,28 @@
         <url-pattern>/Friends</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>PostModel</servlet-name>
+        <url-pattern>/PostModel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadPost</servlet-name>
+        <url-pattern>/UploadPost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FriendPage</servlet-name>
+        <url-pattern>/FriendPage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>CreatePost</servlet-name>
         <url-pattern>/CreatePost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetPostImage</servlet-name>
+        <url-pattern>/GetPostImage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LikeHome</servlet-name>
+        <url-pattern>/LikeHome</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

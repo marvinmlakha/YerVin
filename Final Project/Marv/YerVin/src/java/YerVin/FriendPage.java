@@ -6,18 +6,23 @@ package YerVin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author EricC
+ * @author mlakh
  */
-public class Profile extends HttpServlet {
+public class FriendPage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,25 +35,42 @@ public class Profile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        if (!Login.ensureUserIsLoggedIn(request)) {
-            // would be nice to have a message
-            request.setAttribute("message", "you must login");
-            response.sendRedirect("Login");
-            return;
+        response.setContentType("text/html;charset=UTF-8");
+        
+        try{
+            Connection connection = DatabaseConnection.getConnection();
+            
+            Statement statement = connection.createStatement();
+            
+            ResultSet results = statement.executeQuery("select * from user");
+            
+            String userName = request.getParameter("action");
+            
+            User user = UserModel.getUser(userName);
+            
+            ArrayList<Post> posts = PostModel.getPostsOfThisUser(user);
+            
+            Collections.sort(posts, new Comparator<Post>(){
+                    public int compare(Post p1, Post p2){
+                        return Integer.valueOf(p2.getId()).compareTo(p1.getId());
+                    }
+            });
+            
+            results.close();
+            statement.close();
+            connection.close();
+            
+            request.setAttribute("friendPage", user);
+            request.setAttribute("friendPosts", posts);
+        
+            String url = "/friendPage.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            
+        }
+        catch ( Exception ex ){
+            System.out.println(ex);
         }
         
-        HttpSession session = request.getSession();
-        String username = (String)session.getAttribute("username");
-        User user = UserModel.getUser(username);
-        
-        ArrayList<Post> posts = PostModel.getPostsOfThisUser(user);
-        request.setAttribute("posts", posts);
-        
-        request.setAttribute("filename", user.getFilename());
-        String url = "/profile.jsp";
-        getServletContext().getRequestDispatcher(url).forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,4 +113,3 @@ public class Profile extends HttpServlet {
     }// </editor-fold>
 
 }
-

@@ -6,11 +6,15 @@ package YerVin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -40,6 +44,22 @@ public class Home extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String)session.getAttribute("username");
         User user = UserModel.getUser(username);
+        
+        ArrayList<User> friends = UserModel.getFriends(user);
+        
+        ArrayList<Post> posts = new ArrayList<Post>();
+        
+        for(User friend : friends){
+            posts.addAll(PostModel.getPostsOfThisUser(friend));
+        }
+        
+        Collections.sort(posts, new Comparator<Post>(){
+                    public int compare(Post p1, Post p2){
+                        return Integer.valueOf(p2.getId()).compareTo(p1.getId());
+                    }
+            });
+        
+        request.setAttribute("friendPosts", posts);
         
         request.setAttribute("filename", user.getFilename());
         String url = "/home.jsp";

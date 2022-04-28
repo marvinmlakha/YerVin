@@ -6,6 +6,7 @@ package YerVin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public class CreatePost extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         
         if (!Login.ensureUserIsLoggedIn(request)) {
             // would be nice to have a message
@@ -41,10 +43,9 @@ public class CreatePost extends HttpServlet {
         String username = (String)session.getAttribute("username");
         User user = UserModel.getUser(username);
         
-        request.setAttribute("filename", user.getFilename());
         String url = "/createPost.jsp";
         getServletContext().getRequestDispatcher(url).forward(request, response);
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

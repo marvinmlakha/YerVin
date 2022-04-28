@@ -6,6 +6,7 @@ package YerVin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +42,9 @@ public class Friends extends HttpServlet {
         String username = (String)session.getAttribute("username");
         User user = UserModel.getUser(username);
         
-        request.setAttribute("filename", user.getFilename());
+        ArrayList<User> friends = UserModel.getFriends(user);
+        request.setAttribute("friends", friends);
+        
         String url = "/addFriend.jsp";
         getServletContext().getRequestDispatcher(url).forward(request, response);
 

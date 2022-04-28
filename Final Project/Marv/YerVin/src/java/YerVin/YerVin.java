@@ -114,6 +114,31 @@ public class YerVin extends HttpServlet {
                 exceptionPage(ex, request, response);
             }
 
+        } else if(action.equalsIgnoreCase("addFriend")){
+            HttpSession session = request.getSession();
+            String currentUserName = (String)session.getAttribute("username");
+            String targetUserName = (String)request.getParameter("friendUsername");
+            //targetUserName is null?
+            
+            User currentUser = UserModel.getUser(currentUserName);
+            User targetUser = UserModel.getUser(targetUserName);
+            
+            UserModel.addFriend(currentUser.getId(), targetUser.getId());
+            
+            String url = "/Friends";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+        } else if(action.equalsIgnoreCase("removeFriend")){
+            HttpSession session = request.getSession();
+            String currentUserName = (String)session.getAttribute("username");
+            String targetUserName = (String)request.getParameter("friendUsername").toString();
+            
+            User currentUser = UserModel.getUser(currentUserName);
+            User targetUser = UserModel.getUser(targetUserName);
+            
+            UserModel.deleteFriend(currentUser.getId(), targetUser.getId());
+            
+            String url = "/Friends";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
         }
         
     }

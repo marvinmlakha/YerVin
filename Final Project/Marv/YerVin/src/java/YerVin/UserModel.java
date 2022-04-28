@@ -109,14 +109,95 @@ public class UserModel {
         }
         
         return users;
+    }
+    
+    public static ArrayList<User> getFriends(User currentAccount){
+        ArrayList<User> users = new ArrayList<User>();
         
+        try{
+            Connection connection = DatabaseConnection.getConnection();
+            
+            Statement statement = connection.createStatement();
+            
+            ResultSet results = statement.executeQuery("SELECT following_user_id FROM following WHERE followed_by_user_id = " + currentAccount.getId());
+            
+            while (results.next()){
+                int id = results.getInt("following_user_id");
+                
+                User user = new User(id);
+                
+                users.add(user);
+            }
+            
+            ResultSet moreResults = null;
+            
+            for(int i = 0; i < users.size(); i++){
+                moreResults = statement.executeQuery("SELECT * FROM user WHERE id = " + users.get(i).getId());
+                moreResults.next();
+                String name = moreResults.getString("username");
+                users.get(i).setUsername(name);
+            }
+            
+            results.close();
+            moreResults.close();
+            statement.close();
+            connection.close();
+            
+        }
+        catch ( Exception ex ){
+            System.out.println(ex);
+        }
+        
+        return users;
+    }
+    
+    public static void addFriend(int currentId, int targetId){
+        try{
+            Connection connection = DatabaseConnection.getConnection();
+            
+            String query = "INSERT INTO following (followed_by_user_id, following_user_id) "
+                    + "VALUES (?, ?)";
+            
+            PreparedStatement statement = connection.prepareStatement(query);
+            
+            statement.setInt(1, currentId);
+            statement.setInt(2, targetId);
+            
+            statement.execute();
+            
+            statement.close();
+            connection.close();
+            
+        }
+        catch ( Exception ex ){
+            System.out.println(ex);
+        }
+    }
+    
+    public static void deleteFriend(int currentId, int targetId){
+        try{
+            Connection connection = DatabaseConnection.getConnection();
+            
+            String query = "DELETE FROM following WHERE followed_by_user_id = " + currentId +" and following_user_id = " + targetId;
+            
+            PreparedStatement statement = connection.prepareStatement(query);
+            
+            statement.execute();
+            
+            statement.close();
+            connection.close();
+            
+        }
+        catch ( Exception ex ){
+            System.out.println(ex);
+        }
     }
     
     public static void addUser(User user){
         try{
             Connection connection = DatabaseConnection.getConnection();
             
-            String query = "insert into user ( username, password ) "
+            String query = "insert into user ( username, password) "
                     + " values ( ?, ? )";
             
             PreparedStatement statement = connection.prepareStatement(query);
